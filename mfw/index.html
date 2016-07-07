@@ -1,7 +1,11 @@
 <html>
 <head>
+  <script>
+    $.getJSON('http://anyorigin.com/get?url=http%3A//motherfuckingwebsite.com&callback=?', function(data){
+	    $('body').html().replace(/((mother)?fuck(ing)?)|(shit)/ig, ""));
+    });
+  </script>
 </head>
 <body>
-<iframe src="//www.google.com/search?q=%http://motherfuckingwebsite.com&btnI=Im+Feeling+Lucky" width="100%" height="100%"></iframe>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <html>
 <head>
+  <script src="//code.jquery.com/jquery-1.12.3.min.js"></script>
   <script>
     $.getJSON('http://anyorigin.com/get?url=http%3A//motherfuckingwebsite.com&callback=?', function(data){
 	    $('body').html().replace(/((mother)?fuck(ing)?)|(shit)/ig, "");

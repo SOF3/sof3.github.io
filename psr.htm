@@ -36,9 +36,9 @@
       $errsn = $("#error-sn");
       $errfqn = $("#error-fqn");
       $errfile = $("#error-file");
-      $codens = $("#code-ns");
-      $codesn = $("#code-sn");
-      $codefile = $("#code-file");
+      $codens = $(".code-ns");
+      $codesn = $(".code-sn");
+      $codefile = $(".code-file");
       var checkInput = function(){
         if($ns.val() !== lastNs || $sn.val() !== lastSn){
           setNs($ns.val());
@@ -89,20 +89,21 @@
           <span id="error-fqn" class="error-msg">Illegal fully-qualified class name!</span></p>
         <p>Relative file path in plugin project: <input id="input-file" type="text"/>
           <span id="error-file" class="error-msg">Not a valid class file!</span></p>
-        <p>So, you should have a file at <span id="code-file"></span> with this content:</p>
+        <p>So, you should have a file at <span class="code-file"></span> with this content:</p>
         <pre>&lt;?php
-<span id="code-ns"></span>
+<span class="code-ns"></span>
 // use statements...
 
-class <span id="code-sn"></span> /* extends ParentClass */{
+class <span class="code-sn"></span> /* extends ParentClass */{
   // content...
 }</pre>
+        <p>And, if it is the main class, you should have this line in plugin.yml:</p>
+        <pre>main: <span class="code-ns"></span>\<span class="code-sn"></span>
       </section>
       <footer>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
+    <script src="javascripts/scale.fix.js"></script>    
   </body>
 </html>

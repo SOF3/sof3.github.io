@@ -20,7 +20,7 @@
       return sym.match(/^[A-Za-z_][0-9A-Za-z_]*(\\[A-Za-z_][0-9A-Za-z_]*)*$/) !== null;
     }
     function toggleSpan($span, display){ $span.css("display", display ? "inline" : "none"); }
-    function setNs(ns){ lastNs = ns; $ns.val(ns); $codens.text(ns.length() > 0 ? ("namespace " + ns + ";\n") : ""); }
+    function setNs(ns){ lastNs = ns; $ns.val(ns); $codens.text(ns.length > 0 ? ("namespace " + ns + ";\n") : ""); }
     function setSn(sn){ lastSn = sn; $sn.val(sn); $codesn.text(sn); }
     function setFile(file){ lastFile = file; $file.val(file); $codefile.text(file); }
     var lastNs = "", lastSn = "", lastFqn = "", lastFile = "";

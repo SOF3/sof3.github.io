@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>PSR-0 class checker</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <style>.error-msg{ display: none; color: red; font-weight: bold; }</style>
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <script>
+    function validateSingleSymbol(sym){
+      return sym.match(/^[A-Za-z_][0-9A-Za-z_]*$/) !== null;
+    }
+    function validateMultiSymbol(sym){
+      return sym.match(/^[A-Za-z_][0-9A-Za-z_]*(\\[A-Za-z_][0-9A-Za-z_]*)*$/) !== null;
+    }
+    function toggleSpan($span, display){
+      $span.css("display", display ? "inline" : "none");
+    }
+    $(document).ready(function(){
+      var lastNs = "", lastSn = "", lastFqn = "", lastFile, "";
+      var $ns = $("#input-ns"), $sn = $("#input-sn"), $fqn = $("#input-fqn"), $file = $("#input-file");
+      var $errns = $("#error-ns"), $errsn = $("#error-sn"), $errfqn = $("#error-fqn"), $errfile = $("#error-file");
+      var checkInput = function(){
+        if($ns.val() !== lastNs || $sn.val() !== lastSn){
+          lastNs = $ns.val();
+          lastSn = $sn.val();
+          toggleSpan($errns, !validateMultiSymbol(lastNs));
+          toggleSpan($errsn, !validateSingleSymbol(lastSn));
+          $fqn.val(lastFqn = lastNs + "\\" + lastSn);
+          $file.val(lastFile = "src/" + lastFqn.replace("\\", "/") + ".php");
+        } else if($fqn.val() !== lastFqn){
+          lastFqn = $fqn.val();
+          toggleSpan($errfqn, !validateMultiSymbol(lastFqn));
+          var symbols = lastFqn.split("\\");
+          $ns.val(lastNs = symbols.slice(0, -1).join("\\"));
+          $sn.val(lastSn = symbols[symbols.length - 1]);
+          $file.val(lastFile = "src/" + lastFqn.replace("\\", "/") + ".php");
+        } else if($file.val() !== lastFile){
+          lastFile = $file.val();
+          var match = lastFile.match(/^src\/(([A-Za-z_][0-9A-Za-z_]*\/)*)([A-Za-z_][0-9A-Za-z_]*)\.php$/);
+          toggleSpan($errfile, match === null);
+          if(match !== null){
+            $ns.val(lastNs = match[1].replace("/", "\\"));
+            $sn.val(lastSn = match[3]);
+            $fqn.val(lastFqn = lastNs + "\\" + lastSn);
+          }
+        }
+        setTimeout(checkInput, 100);
+      };
+      checkInput();
+    });
+    </script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>PSR-0 class checker</h1>
+        <p>Check if your PHP files are created at the correct location.</p>
+      </header>
+      <section>
+        <p>Namespace: <input id="input-ns" type="text" value="AliceAndBob\LoveLetter"/>
+          <span id="error-ns" class="error-msg">Illegal namespace!</span>
+          <br/>
+          Class name: <input id="input-sn" type="text" value="MainClass"/>
+          <span id="error-sn" class="error-msg">Illegal class name!</span></p>
+        <p>Fully-qualified class name: <input id="input-fqn" type="text" value="AliceAndBob\LoveLetter\MainClass"/>
+          <span id="error-fqn" class="error-msg">Illegal fully-qualified class name!</span></p>
+        <p>Relative file path in plugin project: <input id="input-file" type="text" value="src/AliceAndBob/LoveLetter/MainClass.php"/>
+          <span id="error-file" class="error-msg">Not a valid class file!</span></p>
+      </section>
+      <footer>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>

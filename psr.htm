@@ -22,10 +22,10 @@
     function toggleSpan($span, display){
       $span.css("display", display ? "inline" : "none");
     }
+    var lastNs = "", lastSn = "", lastFqn = "", lastFile, "";
+    var $ns = $("#input-ns"), $sn = $("#input-sn"), $fqn = $("#input-fqn"), $file = $("#input-file");
+    var $errns = $("#error-ns"), $errsn = $("#error-sn"), $errfqn = $("#error-fqn"), $errfile = $("#error-file");
     $(document).ready(function(){
-      var lastNs = "", lastSn = "", lastFqn = "", lastFile, "";
-      var $ns = $("#input-ns"), $sn = $("#input-sn"), $fqn = $("#input-fqn"), $file = $("#input-file");
-      var $errns = $("#error-ns"), $errsn = $("#error-sn"), $errfqn = $("#error-fqn"), $errfile = $("#error-file");
       var checkInput = function(){
         if($ns.val() !== lastNs || $sn.val() !== lastSn){
           lastNs = $ns.val();

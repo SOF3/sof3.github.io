@@ -41,8 +41,8 @@
       $codefile = $("#code-file");
       var checkInput = function(){
         if($ns.val() !== lastNs || $sn.val() !== lastSn){
-          lastNs = $ns.val();
-          lastSn = $sn.val();
+          setNs($ns.val());
+          setSn($sn.val());
           toggleSpan($errns, !validateMultiSymbol(lastNs));
           toggleSpan($errsn, !validateSingleSymbol(lastSn));
           $fqn.val(lastFqn = lastNs + "\\" + lastSn);
@@ -55,7 +55,7 @@
           setSn(symbols[symbols.length - 1]);
           setFile("src/" + lastFqn.replace("\\", "/") + ".php");
         } else if($file.val() !== lastFile){
-          lastFile = $file.val();
+          setFile($file.val());
           var match = lastFile.match(/^src\/(([A-Za-z_][0-9A-Za-z_]*\/)*)([A-Za-z_][0-9A-Za-z_]*)\.php$/);
           toggleSpan($errfile, match === null);
           if(match !== null){

@@ -19,12 +19,14 @@
     function validateMultiSymbol(sym){
       return sym.match(/^[A-Za-z_][0-9A-Za-z_]*(\\[A-Za-z_][0-9A-Za-z_]*)*$/) !== null;
     }
-    function toggleSpan($span, display){
-      $span.css("display", display ? "inline" : "none");
-    }
+    function toggleSpan($span, display){ $span.css("display", display ? "inline" : "none"); }
+    function setNs(ns){ lastNs = ns; $ns.val(ns); $codens.val(ns.length() > 0 ? ("namespace " + ns + ";\n") : ""); }
+    function setSn(sn){ lastSn = sn; $sn.val(sn); $codesn.val(sn); }
+    function setFile(file){ lastFile = file; $file.val(file); $codefile.val(file); }
     var lastNs = "", lastSn = "", lastFqn = "", lastFile = "";
     var $ns, $sn, $fqn, $file;
     var $errns, $errsn, $errfqn, $errfile;
+    var $codens, $codesn, $codefile;
     $(document).ready(function(){
       $ns = $("#input-ns");
       $sn = $("#input-sn");
@@ -34,6 +36,9 @@
       $errsn = $("#error-sn");
       $errfqn = $("#error-fqn");
       $errfile = $("#error-file");
+      $codens = $("#code-ns");
+      $codesn = $("#code-sn");
+      $codefile = $("#code-file");
       var checkInput = function(){
         if($ns.val() !== lastNs || $sn.val() !== lastSn){
           lastNs = $ns.val();
@@ -41,21 +46,21 @@
           toggleSpan($errns, !validateMultiSymbol(lastNs));
           toggleSpan($errsn, !validateSingleSymbol(lastSn));
           $fqn.val(lastFqn = lastNs + "\\" + lastSn);
-          $file.val(lastFile = "src/" + lastFqn.replace("\\", "/") + ".php");
+          setFile("src/" + lastFqn.replace("\\", "/") + ".php");
         } else if($fqn.val() !== lastFqn){
           lastFqn = $fqn.val();
           toggleSpan($errfqn, !validateMultiSymbol(lastFqn));
           var symbols = lastFqn.split("\\");
-          $ns.val(lastNs = symbols.slice(0, -1).join("\\"));
-          $sn.val(lastSn = symbols[symbols.length - 1]);
-          $file.val(lastFile = "src/" + lastFqn.replace("\\", "/") + ".php");
+          setNs(symbols.slice(0, -1).join("\\"));
+          setSn(symbols[symbols.length - 1]);
+          setFile("src/" + lastFqn.replace("\\", "/") + ".php");
         } else if($file.val() !== lastFile){
           lastFile = $file.val();
           var match = lastFile.match(/^src\/(([A-Za-z_][0-9A-Za-z_]*\/)*)([A-Za-z_][0-9A-Za-z_]*)\.php$/);
           toggleSpan($errfile, match === null);
           if(match !== null){
-            $ns.val(lastNs = match[1].replace("/", "\\"));
-            $sn.val(lastSn = match[3]);
+            setNs(match[1].replace("/", "\\"));
+            setSn(match[3]);
             $fqn.val(lastFqn = lastNs + "\\" + lastSn);
           }
         }
@@ -80,10 +85,18 @@
           <br/>
           Class name: <input id="input-sn" type="text" value="MainClass"/>
           <span id="error-sn" class="error-msg">Illegal class name!</span></p>
-        <p>Fully-qualified class name: <input id="input-fqn" type="text" value="AliceAndBob\LoveLetter\MainClass"/>
+        <p>Fully-qualified class name: <input id="input-fqn" type="text"/>
           <span id="error-fqn" class="error-msg">Illegal fully-qualified class name!</span></p>
-        <p>Relative file path in plugin project: <input id="input-file" type="text" value="src/AliceAndBob/LoveLetter/MainClass.php"/>
+        <p>Relative file path in plugin project: <input id="input-file" type="text"/>
           <span id="error-file" class="error-msg">Not a valid class file!</span></p>
+        <p>So, you should have a file at <span id="code-file"></span> with this content:</p>
+        <pre>&lt;?php
+<span id="code-ns"></span>
+// use statements...
+
+class <span id="code-sn"></span> /* extends ParentClass */{
+  // content...
+}</pre>
       </section>
       <footer>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>

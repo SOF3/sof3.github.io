@@ -23,9 +23,17 @@
       $span.css("display", display ? "inline" : "none");
     }
     var lastNs = "", lastSn = "", lastFqn = "", lastFile = "";
-    var $ns = $("#input-ns"), $sn = $("#input-sn"), $fqn = $("#input-fqn"), $file = $("#input-file");
-    var $errns = $("#error-ns"), $errsn = $("#error-sn"), $errfqn = $("#error-fqn"), $errfile = $("#error-file");
+    var $ns, $sn, $fqn, $file;
+    var $errns, $errsn, $errfqn, $errfile;
     $(document).ready(function(){
+      $ns = $("#input-ns");
+      $sn = $("#input-sn");
+      $fqn = $("#input-fqn");
+      $file = $("#input-file");
+      $errns = $("#error-ns");
+      $errsn = $("#error-sn");
+      $errfqn = $("#error-fqn");
+      $errfile = $("#error-file");
       var checkInput = function(){
         if($ns.val() !== lastNs || $sn.val() !== lastSn){
           lastNs = $ns.val();

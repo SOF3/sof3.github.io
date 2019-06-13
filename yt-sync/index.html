@@ -11,7 +11,7 @@ if(video){
 	const now = Math.floor(Date.now() / 1000)
 	const passed = now - epoch
 	const now_time = time + passed
-	window.location.replace(`https://youtu.be/${video}?t=${now_time}`)
+	alert(`https://youtu.be/${video}?t=${now_time}`)
 }
 
 const toHref = url => {

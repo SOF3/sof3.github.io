@@ -11,7 +11,7 @@ if(video){
 	const now = Math.floor(Date.now() / 1000)
 	const passed = now - epoch
 	const now_time = time + passed
-	alert(`https://youtu.be/${video}?t=${now_time}`)
+	window.location.replace(`https://youtu.be/${video}?t=${now_time}`)
 }
 
 const toHref = url => {
@@ -44,10 +44,9 @@ function conv(value){
 		time: null,
 	}
 }
-
-const input = document.getElementById("input")
-const output = document.getElementById("output")
 setInterval(() => {
+	const input = document.getElementById("input")
+	const output = document.getElementById("output")
 	const {ok, video, time} = conv(input.value)
 	if(ok) output.value = window.location.origin + window.location.pathname + `?v=${video}&t=${time}&e=${Math.floor(Date.now()/1000)}`
 }, 500)

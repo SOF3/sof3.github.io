@@ -28,14 +28,14 @@ function conv(value){
 		return {
 			ok: true,
 			video: args.get("v"),
-			time: t.endsWith("s") ? t.substr(0, t.length - 1) : "0",
+			time: t != null && t.endsWith("s") ? t.substr(0, t.length - 1) : "0",
 		}
 	}
 	if(link.hostname === "youtu.be" && link.pathname.startsWith("/")){
 		return {
 			ok: true,
 			video: link.pathname.substr(1),
-			time: t,
+			time: t != null ? t : "0",
 		}
 	}
 	return {

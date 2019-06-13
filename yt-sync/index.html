@@ -5,12 +5,14 @@
 		<script>
 const params = new URLSearchParams(window.location.search)
 const video = params.get("v")
-const time = parseInt(params.get("t"))
-const epoch = parseInt(params.get("e"))
-const now = Math.floor(Date.now() / 1000)
-const passed = now - epoch
-const now_time = time + passed
-window.location.replace(`https://youtu.be/${video}?t=${now_time}`)
+if(video){
+	const time = parseInt(params.get("t"))
+	const epoch = parseInt(params.get("e"))
+	const now = Math.floor(Date.now() / 1000)
+	const passed = now - epoch
+	const now_time = time + passed
+	window.location.replace(`https://youtu.be/${video}?t=${now_time}`)
+}
 
 const toHref = url => {
 	a = document.createElement("a")
